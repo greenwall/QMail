@@ -1,0 +1,114 @@
+﻿@model IList<qmail.StoredMailMessage>
+
+@{
+    ViewBag.Title = "Mails";
+}
+
+@helper buildLinks(int start, int end, string innerContent)
+    {
+    for (int i = start; i <= end; i++)
+    {
+         <a class="@(i == ViewBag.CurrentPage ? "current" : "")"  
+            href="@Url.Action("mails", "home", new { page = i, searchString = ViewBag.CurrentFilter })">@(innerContent ?? i.ToString())</a>      
+        //, sortBy = ViewBag.sortBy, isAsc = ViewBag.isAsc.ToString().ToLower(), search = ViewBag.Search })">@(innerContent ?? i.ToString())</a>      
+    }
+    
+}
+
+
+@helper pageLinks()
+    {
+    const int maxPages = 11;
+
+    if (ViewBag.TotalPages <= maxPages)
+    {
+        @buildLinks(1, (int)ViewBag.TotalPages, null)
+        return;
+    }
+
+    int pagesAfter = ViewBag.TotalPages - ViewBag.CurrentPage; // Number of pages after current
+    int pagesBefore = ViewBag.CurrentPage - 1; // Number of pages before current
+
+    if (pagesAfter <= 4)
+    {
+        @buildLinks(1, 1, null) // Show 1st page
+
+        int pageSubset = ViewBag.TotalPages - maxPages - 1 > 1 ? ViewBag.TotalPages - maxPages - 1 : 2;
+        @buildLinks(pageSubset, pageSubset, "...") // Show page subset (...)
+
+        @buildLinks(ViewBag.TotalPages - maxPages + 3, ViewBag.TotalPages, null) // Show last pages
+
+        return; // Exit
+    }
+
+    if (pagesBefore <= 4)
+    {
+       @buildLinks(1, maxPages - 2, null) // Show 1st pages
+
+
+        int pageSubset = maxPages + 2 < ViewBag.TotalPages ? maxPages + 2 : ViewBag.TotalPages - 1;
+       @buildLinks(pageSubset, pageSubset, "...") // Show page subset (...)
+
+       @buildLinks(ViewBag.TotalPages, ViewBag.TotalPages, null) // Show last page
+
+        return; // Exit
+
+    }
+
+    if (pagesAfter > 4)
+    {
+        @buildLinks(1, 1, null) // Show 1st pages
+
+        int pageSubset1 = ViewBag.CurrentPage - 7 > 1 ? ViewBag.CurrentPage - 7 : 2;
+        int pageSubset2 = ViewBag.CurrentPage + 7 < ViewBag.TotalPages ? ViewBag.CurrentPage + 7 : ViewBag.TotalPages - 1;
+
+        @buildLinks(pageSubset1, pageSubset1, pageSubset1 == ViewBag.CurrentPage - 4 ? null : "...") // Show 1st page subset (...)
+
+        @buildLinks(ViewBag.CurrentPage - 3, ViewBag.CurrentPage + 3, null) // Show middle pages
+
+        // Show 2nd page subset (...)
+        // only show ... if page is contigous to the previous one.
+        @buildLinks(pageSubset2, pageSubset2, pageSubset2 == ViewBag.CurrentPage + 4 ? null : "...")
+        @buildLinks(ViewBag.TotalPages, ViewBag.TotalPages, null) // Show last page
+
+        return; // Exit
+
+    }    
+}
+
+<h2 class="center">Mails</h2>
+
+@using (Html.BeginForm())
+{
+    <p class="center">
+         Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)  
+        <input type="submit" value="Search" /></p>
+}
+
+<table class="mails">
+ @* header *@
+ <tr>
+    <th>Id</th>
+    <th>To</th>
+    <th>Subject</th>
+    <th>From</th>
+ </tr>
+
+ 
+@{int i = 1;}
+@foreach (var m in Model)
+{    
+    <tr class="@(i++ % 2 == 0 ? "highlighted" : "")">
+        <td>@m.id</td>
+        <td>@m.To</td>
+        <td>@m.Subject</td>
+        <td>@m.From</td>
+    </tr>
+}
+
+</table>
+<div class="pagination">
+Page @ViewBag.CurrentPage of @ViewBag.TotalPages: 
+@pageLinks()       
+</div>
+

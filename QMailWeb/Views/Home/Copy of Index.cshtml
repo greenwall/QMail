@@ -1,0 +1,57 @@
+﻿@model IEnumerable<QMailWeb.Models.MailModel>
+
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Mails last @Html.TextBox("hours") hour(s)  
+        <input type="submit" value="Search" /></p>
+}
+
+Created: @ViewBag.mailsStat.Created
+Sent: @ViewBag.mailsStat.Sent
+Failed: @ViewBag.mailsStat.Failed
+Archived: @ViewBag.mailsStat.Archived
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")  
+        <input type="submit" value="Search" /></p>
+}
+
+<table>
+    <tr>
+        <th></th>
+        <th>
+            @Html.ActionLink("Last Name", "Index", new { sortOrder=ViewBag.NameSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Enrollment Date", "Index", new { sortOrder=ViewBag.DateSortParm })
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+        <td>
+            @item.Subject
+        </td>
+        <td>
+            @item.To
+        </td>
+    </tr>
+}
+
+</table>
+

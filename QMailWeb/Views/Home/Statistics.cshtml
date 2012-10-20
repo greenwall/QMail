@@ -1,0 +1,43 @@
+﻿@model IEnumerable<qmail.MailsStat>
+
+@{
+    ViewBag.Title = "Statistics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="center">Statistics</h2>
+
+<table  class="mails">
+    <tr>
+        <th>Since</th>
+        <th>Created</th>
+        <th>Sent</th>
+        <th>Failed</th>
+        <th>Archived</th>
+    </tr>
+@{ 
+    var test = new qmail.MailsStat(DateTime.Now, 0,0,0,0);
+}
+
+@{int i = 1;}
+@foreach (var stat in Model) {
+    <tr class="@(i++ % 2 == 0 ? "highlighted" : "")"> 
+       <td>
+            @stat.SinceDate
+        </td>
+        <td>
+            @stat.Created
+        </td>
+        <td>
+            @stat.Sent
+        </td>
+        <td>
+            @stat.Failed
+        </td>
+        <td>
+            @stat.Archived
+        </td>
+    </tr>
+}
+</table>
+
