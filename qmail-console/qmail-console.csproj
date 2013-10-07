@@ -42,16 +42,16 @@
       <HintPath>..\..\..\..\lib\log4net-1.2.11\bin\net-cp\4.0\release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Rebex.Common">
-      <HintPath>..\..\..\..\lib\Rebex Components 2012 R2\bin\netcf-3.5\Rebex.Common.dll</HintPath>
+      <HintPath>..\..\..\Rebex Components 2013 R2\bin\netcf-3.5\Rebex.Common.dll</HintPath>
     </Reference>
     <Reference Include="Rebex.Mail">
-      <HintPath>..\..\..\..\lib\Rebex Components 2012 R2\bin\netcf-3.5\Rebex.Mail.dll</HintPath>
+      <HintPath>..\..\..\Rebex Components 2013 R2\bin\netcf-3.5\Rebex.Mail.dll</HintPath>
     </Reference>
     <Reference Include="Rebex.Networking">
-      <HintPath>..\..\..\..\lib\Rebex Components 2012 R2\bin\netcf-3.5\Rebex.Networking.dll</HintPath>
+      <HintPath>..\..\..\Rebex Components 2013 R2\bin\netcf-3.5\Rebex.Networking.dll</HintPath>
     </Reference>
     <Reference Include="Rebex.Smtp">
-      <HintPath>..\..\..\..\lib\Rebex Components 2012 R2\bin\netcf-3.5\Rebex.Smtp.dll</HintPath>
+      <HintPath>..\..\..\Rebex Components 2013 R2\bin\netcf-3.5\Rebex.Smtp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
