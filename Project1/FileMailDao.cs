@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net.Mail;
 using System.IO;
 using System.Configuration;
 
 using log4net;
-using Rebex.Net;
-
-using Util.Config;
-using qmail;
 
 namespace qmail
 {
@@ -40,7 +35,7 @@ namespace qmail
             createFolders = config.CreateFolders;
             processFilesByDate = config.ProcessFilesByDate;
 
-            verifyFolders();
+            VerifyFolders();
         }
 
         private DirectoryInfo FolderOrNull(string folder)
@@ -49,13 +44,10 @@ namespace qmail
             {
                 return new DirectoryInfo(folder);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
-        private void verifyFolders()
+        private void VerifyFolders()
         {
             checkIfFolderExists(mailFolder, createFolders);
             checkIfFolderExists(sentMailFolder, createFolders);
@@ -92,22 +84,19 @@ namespace qmail
                 // Ensure strict ordering by date. May cause problems if we have huge amounts of files in dropfolder!
                 FileSystemInfo[] files = mailFolder.GetFileSystemInfos("*.eml");
                 var orderedFiles = files.OrderBy(f => f.CreationTime);
-                if (orderedFiles.Count() > 0)
+                if (orderedFiles.Any())
                 {
                     FileSystemInfo first = orderedFiles.First();
                     return LoadMailFromFile(first);
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
             else
             {
                 IEnumerable<FileSystemInfo> files = mailFolder.EnumerateFileSystemInfos("*.eml");
                 try
                 {
-                    FileSystemInfo first = files.First<FileSystemInfo>();
+                    var first = files.First();
                     return LoadMailFromFile(first);
                 }
                 catch
@@ -125,8 +114,8 @@ namespace qmail
             string fileNameLoading = first.FullName + ".loading";
             file.MoveTo(fileNameLoading);
 
-            Rebex.Mail.MailMessage rmessage = new Rebex.Mail.MailMessage();
-            rmessage.Load(fileNameLoading);
+            var rmessage = new Rebex.Mail.MailMessage();
+            rmessage.Load(fileNameLoading); 
 
             file.MoveTo(first.FullName + ".loaded");
 

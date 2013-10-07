@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
 using System.Data.SqlClient;
-using System.Net.Mail;
-
-//using log4net;
 
 using Util.Config;
 
@@ -14,18 +9,16 @@ namespace Util.Data
 {
     public class DbTemplate
     {
-        //private static readonly log4net.ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private readonly string connectionName;
+        private readonly string _connectionName;
 
         public DbTemplate(string connectionName)
         {
-            this.connectionName = connectionName;
+            _connectionName = connectionName;
         }
 
         private SqlConnection GetConnection()
         {
-            return ConfigHelper.SqlConnection(connectionName);
+            return ConfigHelper.SqlConnection(_connectionName);
         }
 
         public delegate T ObjectReader<T>(SqlDataReader reader);
@@ -70,9 +63,7 @@ namespace Util.Data
 
             using (SqlConnection connection = GetConnection())
             {
-                SqlCommand cmd = new SqlCommand();
-                SqlDataReader reader;
-
+                var cmd = new SqlCommand();
                 cmd.CommandText = statement;
                 cmd.Connection = connection;
 
@@ -87,7 +78,7 @@ namespace Util.Data
                         cmd.Parameters.Add(param.Name, param.Type).Value = param.Value;
                     }
                 }
-                using (reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -108,7 +99,7 @@ namespace Util.Data
             using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
-                using (SqlCommand cmd = new SqlCommand(statement, connection))
+                using (var cmd = new SqlCommand(statement, connection))
                 {
                     if (parameters != null)
                     {
@@ -129,7 +120,7 @@ namespace Util.Data
             using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
-                using (SqlCommand cmd = new SqlCommand(statement, connection))
+                using (var cmd = new SqlCommand(statement, connection))
                 {
                     foreach (DbParameter param in parameters)
                     {

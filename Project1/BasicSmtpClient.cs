@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Mail;
 using System.Configuration;
 
@@ -11,7 +8,7 @@ namespace qmail
 {
     public class BasicSmtpClient : ISmtpClient
     {
-        private static readonly log4net.ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly string host = null;
         private readonly int port = 22;

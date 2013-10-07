@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Util.Profiling
 {
     public class Timers
     {
-        private static Dictionary<string, Timer> Infos = new Dictionary<string, Timer>();
+        private static readonly Dictionary<string, Timer> Infos = new Dictionary<string, Timer>();
 
-        public static IDisposable Time(string BlockName)
+        public static IDisposable Time(string blockName)
         {
             Timer info;
-            if (!Infos.ContainsKey(BlockName))
+            if (!Infos.ContainsKey(blockName))
             {
-                info = new Timer(BlockName);
-                Infos[BlockName] = info;
+                info = new Timer(blockName);
+                Infos[blockName] = info;
             }
             else
             {
-                info = Infos[BlockName];
+                info = Infos[blockName];
             }
-            //Timer timer = new Timer();
-
             return info.StartExecution();
         }
 
@@ -45,15 +42,15 @@ namespace Util.Profiling
 
     class Timer {
 
-        private string name;
-        private long NumberOfExecutions;
-        private long _TotalTime;
-        private long MinTime;
-        private long MaxTime;
+        private readonly string name;
+        private long _numberOfExecutions;
+        private long _totalTime;
+        private long _minTime;
+        private long _maxTime;
 
         public Timer(string Name) 
         {
-            this.name = Name;
+            name = Name;
         }
 
         public StartTime StartExecution()
@@ -63,16 +60,16 @@ namespace Util.Profiling
 
         public void AddExecution(StartTime timer) 
         {
-            NumberOfExecutions++;
+            _numberOfExecutions++;
 
-            MinTime = Math.Min(MinTime, timer.Millis());
-            MaxTime = Math.Max(MaxTime, timer.Millis());
-            _TotalTime += timer.Millis();
+            _minTime = Math.Min(_minTime, timer.Millis());
+            _maxTime = Math.Max(_maxTime, timer.Millis());
+            _totalTime += timer.Millis();
         }
 
         public long Executions()
         {
-            return NumberOfExecutions;
+            return _numberOfExecutions;
         }
         public String Name()
         {
@@ -81,49 +78,49 @@ namespace Util.Profiling
 
         public long MinimumTime()
         {
-            return MinTime;
+            return _minTime;
         }
 
         public long MaximumTime()
         {
-            return MaxTime;
+            return _maxTime;
         }
 
         public long AverageTime()
         {
-            return _TotalTime / NumberOfExecutions;
+            return _totalTime / _numberOfExecutions;
         }
         public long TotalTime()
         {
-            return _TotalTime;
+            return _totalTime;
         }
     }
 
     class StartTime : IDisposable
     {
-        private Timer info;
-        private long StartMillis = System.DateTime.Now.Ticks/10000;
-        private long PassedMillis;
+        private readonly Timer _info;
+        private readonly long _startMillis = DateTime.Now.Ticks/10000;
+        private long _passedMillis;
 
         // Timer needs to hold reference to TimingInfo in order to update it on disposal.
         public StartTime(Timer info)
         {
-            this.info = info;
+            _info = info;
         }
         public void Dispose()
         {
-            PassedMillis = System.DateTime.Now.Ticks/10000 - StartMillis;
-            info.AddExecution(this);
+            _passedMillis = System.DateTime.Now.Ticks/10000 - _startMillis;
+            _info.AddExecution(this);
         }
 
         public long Millis()
         {
-            return PassedMillis;
+            return _passedMillis;
         }
 
         override public string ToString()
         {
-            return ""+PassedMillis;
+            return ""+_passedMillis;
         }
     }
 }

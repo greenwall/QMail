@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Mail;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace Util.Config
@@ -35,10 +30,7 @@ namespace Util.Config
                     throw new Exception("Invalid value=" + value + " for '" + configName + "'. Default value=" + defaultValue, ex);
                 }
             }
-            else
-            {
-                return defaultValue;
-            }
+            return defaultValue;
         }
 
         public static bool DefaultBool(string configName, bool defaultValue)
@@ -55,10 +47,7 @@ namespace Util.Config
                     throw new Exception("Invalid value=" + value + " for '" + configName + "'. Default value=" + defaultValue, ex);
                 }
             }
-            else
-            {
-                return defaultValue;
-            }
+            return defaultValue;
         }
 
         public static string DefaultString(string configName, string defaultValue, bool allowEmpty = false)
@@ -75,10 +64,7 @@ namespace Util.Config
                     throw new Exception("Invalid value=" + value + " for '" + configName + "'. Default value=" + defaultValue, ex);
                 }
             }
-            else
-            {
-                return defaultValue;
-            }
+            return defaultValue;
         }
 
         public static SqlConnection SqlConnection(string key)

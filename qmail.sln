@@ -1,18 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test1", "test1\test1.csproj", "{6E8C3990-8942-4144-B6E3-D29C7E5793FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "util", "ClassLibrary1\util.csproj", "{DF64D1E0-3477-4E8E-845F-1F2DF4DAFF86}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qmail", "Project1\qmail.csproj", "{459D8736-4F85-4DEE-8B7A-2B1D522B3942}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2F5FE232-1F94-434D-BD66-31FB8A27DD2D}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		Util.vsmdi = Util.vsmdi
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test1", "test1\test1.csproj", "{6E8C3990-8942-4144-B6E3-D29C7E5793FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "util", "ClassLibrary1\util.csproj", "{DF64D1E0-3477-4E8E-845F-1F2DF4DAFF86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qmail", "Project1\qmail.csproj", "{459D8736-4F85-4DEE-8B7A-2B1D522B3942}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMailService", "QMailService\QMailService.csproj", "{19A799C3-4F52-406F-9B53-F389B1F55942}"
 EndProject
